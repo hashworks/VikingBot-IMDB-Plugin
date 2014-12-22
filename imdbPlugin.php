@@ -43,7 +43,7 @@ class imdbPlugin implements pluginInterface {
 			if ($this->disabled === true) {
 				return;
 			}
-			if(stringStartsWith($msg, $this->config['trigger'] . "imdbid")) {
+			if(stringStartsWith(strtolower($msg), $this->config['trigger'] . "imdbid")) {
 				$query = trim(str_replace("{$this->config['trigger']}imdbid", "", $msg));
 				if (!empty($query)) {
 					$query = ucwords($query);
