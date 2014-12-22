@@ -9,8 +9,17 @@ class imdbPlugin implements pluginInterface {
 		 * @param resource 	$socket
 		**/
 		function init($config, $socket) {
-			$this->config = $config;
-			$this->socket = $socket;
+			$this->config   = $config;
+			$this->socket   = $socket;
+			$this->disabled = false;
+			if (!ini_get('allow_url_fopen')) {
+				try {
+					ini_set('allow_url_fopen', '1');
+				} catch (Exception $e) {
+					logMsg("Unable to enable allow_url_fopen, disabling imdbPlugin.");
+					$this->disabled = true;
+				}
+			}
 		}
 
 		/**
@@ -31,6 +40,9 @@ class imdbPlugin implements pluginInterface {
 		 * @param string $msg
 		 */
 		function onMessage($from, $channel, $msg) {
+			if ($this->disabled === true) {
+				return;
+			}
 				if(stringStartsWith($msg, $this->config['trigger'] . "imdbid")) {
 						$query = trim(str_replace("{$this->config['trigger']}imdbid", "", $msg));
 						if (!empty($query)) {
