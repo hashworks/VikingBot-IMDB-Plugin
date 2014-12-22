@@ -43,30 +43,30 @@ class imdbPlugin implements pluginInterface {
 			if ($this->disabled === true) {
 				return;
 			}
-				if(stringStartsWith($msg, $this->config['trigger'] . "imdbid")) {
-						$query = trim(str_replace("{$this->config['trigger']}imdbid", "", $msg));
-						if (!empty($query)) {
-							$query = ucwords($query);
-							if (($data = $this->imdbSearch($query)) !== false && isset($data["title_popular"])) {
-								$lines = count($data["title_popular"]);
-								if ($lines == 1) {
-									$title = $data["title_popular"][0];
-									sendMessage($this->socket, $channel, "{$from}: IMDB ID of \"" . $title["title"] . "\" is " . $title["id"]);
-								} else {
-									if ($channel != $from) {
-										sendMessage($this->socket, $channel, "Found " . $lines . " entries for \"" . $query . "\", I've send you a message.");
-									} else {
-										sendMessage($this->socket, $channel, "Found " . $lines . " entries for \"" . $query . "\":");
-									}
-									foreach ($data["title_popular"] as $title) {
-										sendMessage($this->socket, $from, "IMDB ID of \"" . $title["title"] . "\" is " . $title["id"]);
-									}
-								}
+			if(stringStartsWith($msg, $this->config['trigger'] . "imdbid")) {
+				$query = trim(str_replace("{$this->config['trigger']}imdbid", "", $msg));
+				if (!empty($query)) {
+					$query = ucwords($query);
+					if (($data = $this->imdbSearch($query)) !== false && isset($data["title_popular"])) {
+						$lines = count($data["title_popular"]);
+						if ($lines == 1) {
+							$title = $data["title_popular"][0];
+							sendMessage($this->socket, $channel, "{$from}: IMDB ID of \"" . $title["title"] . "\" is " . $title["id"]);
+						} else {
+							if ($channel != $from) {
+								sendMessage($this->socket, $channel, "Found " . $lines . " entries for \"" . $query . "\", I've send you a message.");
 							} else {
-								sendMessage($this->socket, $channel, "{$from}: Nothing found for \"" . $query . "\"!");
+								sendMessage($this->socket, $channel, "Found " . $lines . " entries for \"" . $query . "\":");
+							}
+							foreach ($data["title_popular"] as $title) {
+								sendMessage($this->socket, $from, "IMDB ID of \"" . $title["title"] . "\" is " . $title["id"]);
 							}
 						}
+					} else {
+						sendMessage($this->socket, $channel, "{$from}: Nothing found for \"" . $query . "\"!");
+					}
 				}
+			}
 		}
 
 		/**
