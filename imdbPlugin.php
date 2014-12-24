@@ -23,6 +23,18 @@ class imdbPlugin implements pluginInterface {
 		}
 
 		/**
+		 * @return array
+		 */
+		function help() {
+			return array(
+				array(
+					'command'     => 'imdbid <query>',
+					'description' => 'Searches the IMDB for <query> and returns one or more IMDB IDs.'
+				)
+			);
+		}
+
+		/**
 		 * Called about twice per second or when there are
 		 * activity on the channel the bot are in.
 		 *
