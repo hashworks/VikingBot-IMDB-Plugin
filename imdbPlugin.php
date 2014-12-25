@@ -1,6 +1,8 @@
 <?php
 
-class imdbPlugin implements pluginInterface {
+class imdbPlugin extends basePlugin {
+
+		private $disabled;
 
 		/**
 		 * Called when plugins are loaded
@@ -8,9 +10,8 @@ class imdbPlugin implements pluginInterface {
 		 * @param mixed[]	$config
 		 * @param resource 	$socket
 		**/
-		function init($config, $socket) {
-			$this->config   = $config;
-			$this->socket   = $socket;
+		public function __construct($config, $socket) {
+			parent::__construct($config, $socket);
 			$this->disabled = false;
 			if (!ini_get('allow_url_fopen')) {
 				try {
@@ -25,22 +26,13 @@ class imdbPlugin implements pluginInterface {
 		/**
 		 * @return array
 		 */
-		function help() {
+		public function help() {
 			return array(
 				array(
 					'command'     => 'imdbid <query>',
 					'description' => 'Searches the IMDB for <query> and returns one or more IMDB IDs.'
 				)
 			);
-		}
-
-		/**
-		 * Called about twice per second or when there are
-		 * activity on the channel the bot are in.
-		 *
-		 * Put your jobs that needs to be run without user interaction here.
-		 */
-		function tick() {
 		}
 
 		/**
@@ -51,7 +43,7 @@ class imdbPlugin implements pluginInterface {
 		 * @param string $channel
 		 * @param string $msg
 		 */
-		function onMessage($from, $channel, $msg) {
+		public function onMessage($from, $channel, $msg) {
 			if ($this->disabled === true) {
 				return;
 			}
@@ -81,22 +73,7 @@ class imdbPlugin implements pluginInterface {
 			}
 		}
 
-		/**
-		 * Called when the bot is shutting down
-		 */
-		function destroy() {
-		}
-
-		/**
-		 * Called when the server sends data to the bot which is *not* a channel message, useful
-		 * if you want to have a plugin do it`s own communication to the server.
-		 *
-		 * @param string $data
-		 */
-		function onData($data) {
-		}
-
-		function imdbSearch($query) {
+		private function imdbSearch($query) {
 			$data = file_get_contents("http://www.imdb.com/xml/find?json=1&tt=on&nm=on&q=" . rawurlencode($query));
 			if (!empty($data) && ($data = json_decode($data, true)) !== NULL) {
 				return $data;
