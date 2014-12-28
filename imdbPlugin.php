@@ -109,15 +109,15 @@ class imdbPlugin extends basePlugin {
 						}
 					} elseif ($info == "rating") {
 						if (isset($data['imdbrating']) && isset($data['imdbvotes'])) {
-							return "Rating is " . $data['imdbrating'] . " with " . $data['imdbvotes'] . " votes.";
+							return "Rating: " . $data['imdbrating'] . " with " . $data['imdbvotes'] . " votes.";
 						}
 					} elseif ($info == "id") {
 						if (isset($data['imdbid'])) {
-							return "IMDB-ID is " . $data['imdbid'] . ".";
+							return "IMDB-ID: " . $data['imdbid'] . ".";
 						}
 					} else {
 						if (isset($data[$info])) {
-							return ucwords($info) . ' is "' . $data[$info] . '".';
+							return ucwords($info) . ': ' . $data[$info] . '.';
 						} else {
 							return "No " . ucwords($info) . " found!";
 						}
