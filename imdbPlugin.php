@@ -27,6 +27,9 @@ class imdbPlugin extends basePlugin {
 	 * @return array
 	 */
 	public function help() {
+		if ($this->disabled === true) {
+			return array();
+		}
 		return array(
 			array(
 				'command'     => 'imdb <title|imdbID> [year]',
