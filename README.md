@@ -3,10 +3,25 @@ VikingBot-IMDB-Plugin
 
 An IMDB plugin for VikingBot!
 
-The syntax is "imdbid query", for example:
-```
-<%hashworks> !imdbid transformers dark of the moon
-<+VikingBot> hashworks: IMDB ID of "Transformers: Dark of the Moon" is tt1399103
-```
+Available commands:<br/>
+`!imdb <title|imdbID> [year]` Searches the IMDB and responds with title, year, imdbID, rating, genre, link & plot.
+`imdb-<info> <title|imdbID> [year]` Searches the IMDB for a specific info.
 
-It'll send the user a message if more than 1 title is found.
+Available info:
+* title
+* year
+* rated
+* metascore
+* rating
+* id
+* released
+* runtime
+* genre
+* director
+* writer
+* actors
+* plot
+* language
+* country
+* awards
+* poster
